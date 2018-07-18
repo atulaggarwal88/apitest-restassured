@@ -1,0 +1,102 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.api-test</groupId>
+	<artifactId>restassured-test</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>API test using junit and rest assured</name>
+
+	<properties>
+		<rest-assured.version>3.1.0</rest-assured.version>
+		<junit.version>4.11</junit.version>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>${junit.version}</version>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- Rest Assured API dependency -->
+		<dependency>
+			<groupId>io.rest-assured</groupId>
+			<artifactId>rest-assured</artifactId>
+			<version>${rest-assured.version}</version>
+		</dependency>
+		<!-- <dependency> <groupId>io.rest-assured</groupId> <artifactId>json-path</artifactId> 
+			<version>${rest-assured.version}</version> </dependency> <dependency> <groupId>io.rest-assured</groupId> 
+			<artifactId>xml-path</artifactId> <version>${rest-assured.version}</version> 
+			</dependency> -->
+		<dependency>
+			<groupId>io.rest-assured</groupId>
+			<artifactId>json-schema-validator</artifactId>
+			<version>${rest-assured.version}</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.hamcrest/hamcrest-all -->
+		<!-- Required for RestAssured -->
+		<dependency>
+			<groupId>org.hamcrest</groupId>
+			<artifactId>hamcrest-all</artifactId>
+			<version>1.3</version>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- Added to get JSONObject -->
+		<dependency>
+			<groupId>org.json</groupId>
+			<artifactId>json</artifactId>
+			<version>20180130</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/com.google.code.gson/gson -->
+		<!-- On running rest assured tests from JUnit runner file, tests were failing 
+			with NoClassDefFound error, on RestAssured.baseURI = baseUrl; Hence assing 
+			GSon, This is required by rest assured as GSon is optional in pom of rest 
+			assured. -->
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>2.8.5</version>
+		</dependency>
+		<dependency>
+			<groupId>org.codehaus.groovy</groupId>
+			<artifactId>groovy-all</artifactId>
+			<version>2.4.7</version>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.7.0</version> <!-- or whatever current version -->
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+				</configuration>
+			</plugin>
+
+			<!-- Added maven surefire plugin for 1. registering listener -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.21.0</version>
+				<configuration>
+					<properties>
+						<property>
+							<name>listener</name>
+							<value>com.listeners.CustomJunitListener</value>
+						</property>
+					</properties>
+					<outputName>Rest Assured Report Test Case</outputName>
+					<groups>com.annotations.FunctionalTest,com.annotations.SmokeTest</groups>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>
