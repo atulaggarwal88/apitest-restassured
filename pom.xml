@@ -70,6 +70,7 @@
 
 	<build>
 		<plugins>
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -80,7 +81,8 @@
 				</configuration>
 			</plugin>
 
-			<!-- Added maven surefire plugin for 1. registering listener -->
+			<!-- Added maven surefire plugin for 1. Registering listener 2. Include 
+				test case category in groups tag -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
@@ -93,10 +95,47 @@
 						</property>
 					</properties>
 					<outputName>Rest Assured Report Test Case</outputName>
-					<groups>com.annotations.FunctionalTest,com.annotations.SmokeTest</groups>
+					<groups>com.annotations.SmokeTest</groups>
 				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-site-plugin</artifactId>
+				<version>3.5.1</version>
+				<configuration>
+					<outputDirectory>${basedir}/target/newsite</outputDirectory>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-report-plugin</artifactId>
+				<version>2.22.0</version>
+				<configuration>
+					<!-- Below configuration is for renaming the report -->
+					<outputName>RestAssured with Junit report_build</outputName>
+				</configuration>
+				<!-- Below configuration is for running report-only goal in test phase -->
+				<executions>
+					<execution>
+						<phase>test</phase>
+						<goals>
+							<goal>report-only</goal>
+						</goals>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>
 
+	<reporting>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-report-plugin</artifactId>
+				<version>2.22.0</version>
+			</plugin>
+		</plugins>
+	</reporting>
 </project>
